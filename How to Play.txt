@@ -1,0 +1,8 @@
+How to Play
+To play select a difficulty or if playing 2 player choose "Disable PC" 
+
+You are able to change the color of the ball and paddle.
+The difficulties effect the computer's max speed. Or you may choose custom to put a custom value for the computer's max speed.
+WARNING!!! Custom Value is unstable over 100
+Press F to enable and disable fullscreen once the game started.
+!!MORE WILL BE ADDED!! 

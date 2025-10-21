@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ping-Pong</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="menu">
+        <h1>Ping-Pong</h1>
+        <button id="startButton">Start Game</button>
+        <label for="difficulty">Select Difficulty:</label>
+
+        <select id="difficulty">
+            <option value="disable">Human - Two Player</option>
+            <option value="easy">AI - Easy</option>
+            <option value="medium">AI - Medium</option>
+            <option value="hard">AI - Hard</option>
+            <option value="impossible">AI - Impossible</option>
+
+            <option value="custom">Value - Custom</option>
+        </select>
+
+        <audio id="menuMusic" src="retro-chill-screen-372755.mp3" loop controls preload="auto" style="margin-top: 10px;"></audio>
+        <audio id="gameMusic" src="Tsunamis Trauma.....mp3" loop preload="auto" style="display: none;"></audio>
+    </div>
+
+    <div id="settingsMenu" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;">
+        <div style="background-color: rgba(0,0,0,0.9); padding: 30px; border-radius: 15px; border: 2px solid #00ffff; box-shadow: 0 0 30px #00ffff; max-width: 500px; width: 90%;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h1 style="color: #00ffff; text-align: center; flex: 1; text-shadow: 0 0 10px #00ffff;">Settings</h1>
+                <button id="closeSettingsButton" style="background: none; border: none; color: #00ffff; font-size: 24px; cursor: pointer; padding: 0;">×</button>
+            </div>
+
+            <div style="margin-top: 20px; font-weight: bold; font-size: 16px; color: white;">
+                <label for="paddleSpeed">Players Speed:</label>
+                <input type="range" id="paddleSpeed" min="1" max="10" value="5" step="0.1" style="margin-left: 10px;">
+            </div>
+
+            <div style="margin-top: 10px; display: flex; gap: 10px;">
+                <div style="flex: 1;">
+                    <label for="paddleColor" style="display: block; margin-bottom: 5px; color: white;">Paddle Color:</label>
+                    <input type="color" id="paddleColor" value="#ffffff" style="width: 100%;">
+                </div>
+                <div style="flex: 1;">
+                    <label for="ballColor" style="display: block; margin-bottom: 5px; color: white;">Ball Color:</label>
+                    <input type="color" id="ballColor" value="#ff0000" style="width: 100%;">
+                </div>
+            </div>
+
+            <div style="margin-top: 10px; font-weight: bold; font-size: 16px; color: white;">
+                <label for="ballTrail" style="cursor: pointer; display: block;">Enable Ball Trail:</label>
+                <input type="checkbox" id="ballTrail" checked style="transform: scale(1.3); margin-left: 8px; cursor: pointer;">
+            </div>
+
+            <div style="margin-top: 10px; font-weight: bold; font-size: 16px; color: white;">
+                <label for="spinningLED" style="cursor: pointer; display: block;">Enable Spinning LED:</label>
+                <input type="checkbox" id="spinningLED" checked style="transform: scale(1.3); margin-left: 8px; cursor: pointer;">
+            </div>
+
+            <div style="margin-top: 10px; font-weight: bold; font-size: 16px; color: white;">
+                <label for="maxBallSpeed">Max Ball Speed:</label>
+                <input type="range" id="maxBallSpeed" min="3" max="10" value="5" step="0.1" style="margin-left: 10px;">
+            </div>
+
+            <div style="margin-top: 10px; font-weight: bold; font-size: 16px; color: white;">
+                <label for="musicVolume">Music Volume:</label>
+                <input type="range" id="musicVolume" min="0" max="100" value="50" step="1" style="margin-left: 10px;">
+            </div>
+
+            <div style="margin-top: 10px; font-weight: bold; font-size: 16px; color: white;">
+                <label for="canvasWidth">Arena Width:</label>
+                <input type="range" id="canvasWidth" min="400" max="1200" value="800" step="50" style="margin-left: 10px;">
+            </div>
+
+            <div style="margin-top: 10px; font-weight: bold; font-size: 16px; color: white;">
+                <label for="canvasHeight">Arena Height:</label>
+                <input type="range" id="canvasHeight" min="200" max="600" value="400" step="50" style="margin-left: 10px;">
+            </div>
+
+            <div style="margin-top: 20px; font-weight: bold; font-size: 16px; color: white;">
+                <label for="coloredBackground" style="cursor: pointer; display: block; margin-bottom: 10px;">Custom Background:</label>
+                <input type="checkbox" id="coloredBackground" style="transform: scale(1.3); margin-left: 8px; cursor: pointer;">
+            </div>
+
+            <div id="colorInputContainer" style="display: none; margin-top: 15px;">
+                <label for="insideColor" style="display: block; margin-bottom: 5px;">Background Color:</label>
+                <input type="color" id="insideColor" value="#000000" style="width: 100%; padding: 5px;">
+            </div>
+
+            <div id="imageInputContainer" style="margin-top: 20px;">
+                <label for="backgroundImageUrl" style="display: block; margin-bottom: 5px; font-weight: bold;">Background Image URL:</label>
+                <input type="text" id="backgroundImageUrl" placeholder="Enter image URL (e.g., https://example.com/image.jpg)" style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                <button id="applyImageButton" style="padding: 10px 20px; background-color: #00ffff; color: black; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Apply Image</button>
+                <label for="backgroundImageFile" style="display: block; margin-bottom: 5px; margin-top: 15px; font-weight: bold;">Or Select Image File:</label>
+                <input type="file" id="backgroundImageFile" accept="image/*" style="width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 5px; border: 1px solid #ccc;">
+            </div>
+
+            <div style="margin-top: 20px; display: flex; justify-content: space-between; gap: 10px;">
+                <button id="applySettingsButton" style="flex: 1; padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Save to Menu</button>
+                <button id="resetSettingsButton" style="flex: 1; padding: 10px 20px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Reset Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="settingsButton" style="position: absolute; bottom: 10px; right: 10px; width: 50px; height: 50px; background-color: rgba(0, 255, 255, 0.8); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid #00ffff; box-shadow: 0 0 15px #00ffff; z-index: 100;">
+        <span style="font-size: 24px; color: black; font-weight: bold;">⚙️</span>
+    </div>
+
+    <div id="secretMenu" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;">
+        <div style="background-color: rgba(0,0,0,0.9); padding: 30px; border-radius: 15px; border: 2px solid #00ffff; box-shadow: 0 0 30px #00ffff; max-width: 500px; width: 90%;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h1 style="color: #00ffff; text-align: center; flex: 1; text-shadow: 0 0 10px #00ffff;">Thankyou to</h1>
+                <button id="closeSecretButton" style="background: none; border: none; color: #00ffff; font-size: 24px; cursor: pointer; padding: 0;">×</button>
+            </div>
+            <div style="font-size: 18px; color: white; text-align: center;">
+                Tsunami's Trouble / Game Music -- Credits: GoldCokey
+            </div>
+        </div>
+    </div>
+
+    <canvas id="gameCanvas" width="800" height="400" style="display:none;"></canvas>
+
+    <script src="script_updated.js"></script>
+</body>
+</html>
